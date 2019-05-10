@@ -44,7 +44,7 @@ and open the template in the editor.
                 background-image: url('Images/PacMan/sonicLeft.png');
                 display: inline-block;
             }
-                        
+            
             .wall{
                 width: 50px;
                 height: 50px;
@@ -66,6 +66,13 @@ and open the template in the editor.
                 display: inline-block;
             }
             
+            #score{
+                display: inline-block;
+                background-color: black;
+                border: 0px;
+                color: white;
+                font-size: 1.5em
+            }
             
         </style>
         <meta charset="UTF-8">
@@ -74,6 +81,10 @@ and open the template in the editor.
     <body>
         <h2>Sonic Game</h2>
         <div id='world'>
+        </div>
+        <div>
+            <h2 style='display: inline-block;'>Score:</h2>
+            <input type='text' id='score' value='0' />
         </div>
     </body>
     <script>
@@ -96,6 +107,17 @@ and open the template in the editor.
         var pacman = {
             i: 4,
             j: 6
+        }
+        
+        var score = 0;
+        
+        function incrementScore(){
+            var score = parseInt(document.getElementById('score').value, 10);
+            if(isNaN(score)){
+                score = 0;
+            }
+            score++;
+            document.getElementById('score').value = score;
         }
         
         function drawWorld(){
@@ -124,20 +146,22 @@ and open the template in the editor.
             if(e.keyCode === 37){
                 //left
                 if(map[pacman.i][pacman.j-1] !== 1){
+                    if(map[pacman.i][pacman.j-1] === 2){
+                        incrementScore();
+                    }
                     //Move PacMan
                     map[pacman.i][pacman.j] = 3;
                     pacman.j = pacman.j - 1;
                     map[pacman.i][pacman.j] = 5;
                     
                     drawWorld();
-                    
-                    if(map[pacman.i][pacman.j-1] === 2){
-                        score++;
-                    }
                 }
             } else if (e.keyCode === 38){
                 //up
                 if(map[pacman.i-1][pacman.j] !== 1){
+                    if(map[pacman.i-1][pacman.j] === 2){
+                        incrementScore();
+                    }
                     map[pacman.i][pacman.j] = 3;
                     pacman.i = pacman.i - 1;
                     map[pacman.i][pacman.j] = 4;
@@ -146,6 +170,9 @@ and open the template in the editor.
             } else if (e.keyCode === 39){
                 //right
                 if(map[pacman.i][pacman.j+1] !== 1){
+                    if(map[pacman.i][pacman.j+1] === 2){
+                        incrementScore();
+                    }
                     map[pacman.i][pacman.j] = 3;
                     pacman.j = pacman.j + 1;
                     map[pacman.i][pacman.j] = 4;
@@ -154,6 +181,9 @@ and open the template in the editor.
             } else if (e.keyCode === 40){
                 //down
                 if(map[pacman.i+1][pacman.j] !== 1){
+                    if(map[pacman.i+1][pacman.j] === 2){
+                        incrementScore();
+                    }
                     map[pacman.i][pacman.j] = 3;
                     pacman.i = pacman.i + 1;
                     map[pacman.i][pacman.j] = 4;
